@@ -42,8 +42,7 @@ public class GradientDrawer : PropertyDrawer
             {
                 if (textureRect.Contains(guiEvent.mousePosition))
                 {
-                    // open editor window
-                    Debug.Log("Clicked on gradient");
+                    EditorWindow.GetWindow<GradientEditor>();  
                 }
             }
         }
