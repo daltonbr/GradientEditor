@@ -25,7 +25,8 @@ public class CustomGradient
         }
     }
 
-    public void AddKey(Color color, float time)
+    ///<summary>Add a key to CustomGradient, and returns its index</summary>
+    public int AddKey(Color color, float time)
     {
         ColorKey newColorKey = new ColorKey(color, time);
         for (int i = 0; i < _keys.Count ; i++)
@@ -33,10 +34,35 @@ public class CustomGradient
             if (newColorKey.Time < _keys[i].Time)
             {
                 _keys.Insert(i, newColorKey);
-                return;
+                return i;
             }
         }
         _keys.Add(newColorKey);
+        return _keys.Count - 1;
+    }
+
+    ///<summary>
+    /// Remove the key when have at least two elements (keys) in the array. Otherwise don't do anything;
+    ///</summary>
+    public void RemoveKey(int index)
+    {
+        if (_keys.Count >= 2)
+        {
+            _keys.RemoveAt(index);
+        }
+    }
+
+    ///<summary>
+    /// Replace the key with a new one, keeping the same color.
+    /// Returns the index of the updated key. This index can be changed.
+    ///</summary>
+    public int UpdateKeyTime(int index, float time)
+    {
+        // Removing the old key in this index, and then placing a new one in its place.
+        // This way we can keep the array ordered.
+        Color oldKeyColor = _keys[index].Color;
+        RemoveKey(index);
+        return AddKey(oldKeyColor, time);
     }
 
     ///<summary>The amount of keys in the CustomGradient</summary>
