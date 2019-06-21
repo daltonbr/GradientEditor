@@ -65,6 +65,11 @@ public class CustomGradient
         return AddKey(oldKeyColor, time);
     }
 
+    public void UpdateKeyColor(int index, Color color)
+    {
+        _keys[index] = new ColorKey(color, _keys[index].Time);
+    }
+
     ///<summary>The amount of keys in the CustomGradient</summary>
     public int NumKeys => _keys.Count;
 

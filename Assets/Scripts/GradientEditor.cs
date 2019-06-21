@@ -52,12 +52,17 @@ public class GradientEditor : EditorWindow
             _keyRects[i] = keyRect;
         }
 
-        // Rect settingsRect = new Rect(BorderSize, _keyRects[0].yMax + BorderSize,
-        //                              position.width - (BorderSize*2), position.height);
+        Rect settingsRect = new Rect(BorderSize, _keyRects[0].yMax + BorderSize,
+                                     position.width - (BorderSize*2), position.height);
                                 
-        // GUILayout.BeginArea(settingsRect);
-        // Color newColor = EditorGUILayout.ColorField(_gradient.GetKey(_selectedKeyIndex).Color);
-        // GUILayout.EndArea();
+        GUILayout.BeginArea(settingsRect);
+        EditorGUI.BeginChangeCheck();
+        Color newColor = EditorGUILayout.ColorField(_gradient.GetKey(_selectedKeyIndex).Color);
+        if (EditorGUI.EndChangeCheck())
+        {
+            _gradient.UpdateKeyColor(_selectedKeyIndex, newColor);
+        }
+        GUILayout.EndArea();
     }
 
     private void HandleInput()
