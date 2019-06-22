@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -62,6 +59,8 @@ public class GradientEditor : EditorWindow
         {
             _gradient.UpdateKeyColor(_selectedKeyIndex, newColor);
         }
+        _gradient.blendMode = (CustomGradient.BlendMode)EditorGUILayout.EnumPopup("Blend Mode", _gradient.blendMode);
+        _gradient.randomizeColor = EditorGUILayout.Toggle("Randomize Color", _gradient.randomizeColor);
         GUILayout.EndArea();
     }
 
@@ -85,11 +84,11 @@ public class GradientEditor : EditorWindow
 
             if (!_mouseIsDownOverKey)
             {
-                Color randomColor = new Color(Random.value, Random.value, Random.value);
                 var keyTime = Mathf.InverseLerp(_gradientPreviewRect.x, _gradientPreviewRect.xMax, guiEvent.mousePosition.x);
-                _selectedKeyIndex = _gradient.AddKey(randomColor, keyTime);
+                Color randomColor = new Color(Random.value, Random.value, Random.value);
+                Color interpolatedColor = _gradient.Evaluate(keyTime);
+                _selectedKeyIndex = _gradient.AddKey(_gradient.randomizeColor ? randomColor : interpolatedColor, keyTime);
                 _mouseIsDownOverKey = true;
-                //_needsRepaint = true;
             }
         }
 
@@ -124,5 +123,14 @@ public class GradientEditor : EditorWindow
     private void OnEnable()
     {
         titleContent.text = "Gradient Editor";
+        position.Set(position.x, position.y, 400, 150);
+        minSize = new Vector2(200, 150);
+        maxSize = new Vector2(1920, 150); 
+    }
+
+    private void OnDisable()
+    {
+        // Set the current scene dirty, to save the changes to the CustomGradient
+        UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
     }
 }

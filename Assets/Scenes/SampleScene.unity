@@ -323,6 +323,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2c9a5c2c5f784bfbb6fd35fcdf59d8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyGradient:
+    blendMode: 0
+    randomizeColor: 0
+    _keys:
+    - _color: {r: 1, g: 1, b: 1, a: 1}
+      _time: 0
+    - _color: {r: 0.6121181, g: 0.7048005, b: 0.9506074, a: 1}
+      _time: 0.18134715
+    - _color: {r: 0.548697, g: 0.6565335, b: 0.9425314, a: 1}
+      _time: 0.19437939
+    - _color: {r: 0.19186941, g: 0.3849681, b: 0.8970933, a: 1}
+      _time: 0.26770294
+    - _color: {r: 0.30343875, g: 0.2507437, b: 0.788441, a: 1}
+      _time: 0.44732296
+    - _color: {r: 0.4407292, g: 0.08557535, b: 0.65474015, a: 1}
+      _time: 0.55613124
+    - _color: {r: 0.7160626, g: 0.043445934, b: 0.33240643, a: 1}
+      _time: 0.6666667
+    - _color: {r: 1, g: 0, b: 0, a: 1}
+      _time: 0.7806563
+    - _color: {r: 0.47244102, g: 0, b: 0, a: 1}
+      _time: 0.89637303
+    - _color: {r: 0, g: 0, b: 0, a: 1}
+      _time: 1
 --- !u!4 &2130478304
 Transform:
   m_ObjectHideFlags: 0

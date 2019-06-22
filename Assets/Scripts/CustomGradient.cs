@@ -1,10 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
 public class CustomGradient
 {
+    public enum BlendMode {Linear, Discrete};
+    public BlendMode blendMode;
+    public bool randomizeColor;
     [SerializeField] private List<ColorKey> _keys = new List<ColorKey>();
 
     ///<summary>Represents a key in the CustomGradient.</summary>
@@ -23,6 +25,11 @@ public class CustomGradient
             _color = color;
             _time = time;
         }
+    }
+    public CustomGradient()
+    {
+        AddKey(Color.white, 0);
+        AddKey(Color.black, 1);
     }
 
     ///<summary>Add a key to CustomGradient, and returns its index</summary>
@@ -79,27 +86,29 @@ public class CustomGradient
     }
 
     public Color Evaluate(float time)
-    {
-        if (_keys.Count == 0)
-        {
-            return Color.white;
-        }
-
+    { 
         ColorKey keyLeft = _keys[0];
         ColorKey keyRight = _keys[_keys.Count - 1];
 
-        for (int i = 0; i < _keys.Count - 1; i++)
+        for (int i = 0; i < _keys.Count; i++)
         {
-            if (_keys[i].Time <= time && _keys[i+1].Time >= time)
+            if (_keys[i].Time <= time)
             {
                 keyLeft = _keys[i];
-                keyRight = _keys[i+1];
+            }
+            if (_keys[i].Time >= time)
+            {
+                keyRight = _keys[i];
                 break;
             }
         }
 
-        float blendTime = Mathf.InverseLerp(keyLeft.Time, keyRight.Time, time);
-        return Color.Lerp(keyLeft.Color, keyRight.Color, blendTime);
+        if (blendMode == BlendMode.Linear)
+        {
+            float blendTime = Mathf.InverseLerp(keyLeft.Time, keyRight.Time, time);
+            return Color.Lerp(keyLeft.Color, keyRight.Color, blendTime);
+        }
+        return keyRight.Color; 
     }
 
     public Texture2D GetTexture(int width)
