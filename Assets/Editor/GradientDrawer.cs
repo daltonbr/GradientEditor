@@ -20,8 +20,13 @@ public class GradientDrawer : PropertyDrawer
 
         Event guiEvent = Event.current;
         CustomGradient gradient = (CustomGradient)fieldInfo.GetValue(property.serializedObject.targetObject);
-        float labelWidth = GUI.skin.label.CalcSize(label).x + MarginAfterLabel;
-        Rect textureRect = new Rect(position.x + labelWidth, position.y, position.width - labelWidth, position.height);
+        
+        Rect labelRect = new Rect(position);
+        labelRect.width = EditorGUIUtility.labelWidth;
+
+        Rect textureRect = new Rect(position);
+        textureRect.width -= EditorGUIUtility.labelWidth;
+        textureRect.x += EditorGUIUtility.labelWidth;
 
         if (guiEvent.type == EventType.Repaint)
           {
